@@ -10,9 +10,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 const UsersPage = async () => {
-  const users = await getUsers();
+  const { data: users, success, message } = await getUsers();
+
+  if (!success) {
+    return (
+      <div className="w-full h-screen flex justify-center">
+  <div className="p-8 space-y-6 w-full max-w-lg">
+    <Alert variant="destructive" className="border-l-4 border-red-500 shadow-lg rounded-xl">
+      <AlertCircleIcon className="h-5 w-5 text-red-600" />
+      <AlertTitle className="text-xl font-semibold">Erreur !</AlertTitle>
+      <AlertDescription className="text-base">
+        <p>{message}</p>
+        <p> Verify your connection and try again.</p>
+      </AlertDescription>
+    </Alert>
+  </div>
+</div>
+
+
+    );
+  }
+
+
   return (
 
     <div className="p-8 space-y-6 max-w-4xl mx-auto mt-0">
@@ -35,7 +58,7 @@ const UsersPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>

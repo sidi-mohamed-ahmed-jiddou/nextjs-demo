@@ -43,6 +43,7 @@ export function RegisterForm({
 
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isSigningInWithGoogle, setIsSigningInWithGoogle] = useState(false);
     const router = useRouter();
 
     const form = useForm<yup.InferType<typeof formSchema>>({
@@ -55,10 +56,17 @@ export function RegisterForm({
     });
 
     const signUpWithGoogle = async () => {
-        await authClient.signIn.social({
-            provider: "google",
-            callbackURL: "/dashboard",
-        });
+        setIsSigningInWithGoogle(true);
+        try {
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/dashboard",
+            });
+        } catch (error) {
+            toast.error("Une erreur s'est produite lors de la connexion");
+        } finally {
+            setIsSigningInWithGoogle(false);
+        }
     };
 
     async function onSubmit(values: yup.InferType<typeof formSchema>) {
@@ -143,7 +151,11 @@ export function RegisterForm({
                                 type="button"
                                 onClick={signUpWithGoogle}
                             >
-                                Sign up with Google
+                                {isSigningInWithGoogle ? (
+                                    <Loader2 className="size-4 animate-spin" />
+                                ) : (
+                                    "Sign up with Google"
+                                )}
                             </Button>
                         </form>
                     </Form>

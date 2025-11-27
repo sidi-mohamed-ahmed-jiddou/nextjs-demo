@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { persons } from "@/db/schema";
-import {  eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 interface UpdateUserInput {
@@ -36,9 +36,11 @@ export async function addUser(data: { name: string; email: string; role?: string
 
     return { success: true };
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to add user");
-  }   
+    return {
+      success: false,
+      message: "Failed to add user",
+    };
+  }
 }
 
 
@@ -49,24 +51,30 @@ export async function getUsers() {
       .from(persons)
       .orderBy(persons.id);
 
-    return result;
+    return { success: true, data: result, message: "Users fetched successfully" };
   } catch (error) {
-    throw new Error("Failed to fetch users");
+    return {
+      success: false,
+      message: "Failed to fetch users",
+    };
   }
 }
 
 export async function getUserById(id: number) {
-    try {
-        const result = await db
-        .select()
-        .from(persons)
-        .where(eq(persons.id, id))
-        .limit(1);
+  try {
+    const result = await db
+      .select()
+      .from(persons)
+      .where(eq(persons.id, id))
+      .limit(1);
 
-        return result[0] ?? null;
-    } catch (error) {
-        throw new Error("Failed to fetch user by ID");
-    }
+    return result[0] ?? null;
+  } catch (error) {
+    return {
+      success: false,
+      message: "Failed to fetch user by ID",
+    };
+  }
 }
 
 
@@ -88,23 +96,34 @@ export async function updateUser(
     revalidatePath(`/persons/details/${id}`);
     revalidatePath(`/persons/update/${id}`);
 
-    return { success: true };
+    return {
+      success: true,
+      message: "User updated successfully",
+    };
   } catch (error) {
-    console.error("Error updating user:", error);
-    throw new Error("Failed to update user");
+    return {
+      success: false,
+      message: "Failed to update user",
+    };
   }
 }
 
 export async function deleteUser(id: number) {
-    try {
-        await db
-            .delete(persons)
-            .where(eq(persons.id, id));
+  try {
+    await db
+      .delete(persons)
+      .where(eq(persons.id, id));
 
-        revalidatePath("/persons");
-    
-    return { success: true };
-    } catch (error) {
-        throw new Error("Failed to delete user");
-    }
+    revalidatePath("/persons");
+
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Failed to delete user",
+    };
+  }
 }
