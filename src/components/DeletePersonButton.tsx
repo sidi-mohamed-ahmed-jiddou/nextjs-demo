@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteUser } from "@/actions/persons";
+import { deletePerson } from "@/actions/persons";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-export default function DeleteUserButton({ userId }: { userId: number }) {
+export default function DeletePersonButton({ personId }: { personId: number }) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ export default function DeleteUserButton({ userId }: { userId: number }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      const result = await deleteUser(userId);
+      const result = await deletePerson(personId);
 
       if (result?.error) {
         toast.error(result.error);
@@ -34,10 +34,10 @@ export default function DeleteUserButton({ userId }: { userId: number }) {
       }
 
       setOpen(false);
-      toast.success("User deleted successfully");
+      toast.success("Person deleted successfully");
       router.refresh();
     } catch (error) {
-      toast.error("Failed to delete user");
+      toast.error("Failed to delete person");
     } finally {
       setIsDeleting(false);
     }
@@ -52,9 +52,9 @@ export default function DeleteUserButton({ userId }: { userId: number }) {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete User?</AlertDialogTitle>
+          <AlertDialogTitle>Delete Person?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete this user?
+            Are you sure you want to delete this person?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

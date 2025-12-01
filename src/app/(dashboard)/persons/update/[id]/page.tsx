@@ -1,10 +1,10 @@
-import { getUserById } from "@/actions/persons";
+import { getPersonById } from "@/actions/persons";
 import UpdateUserForm from "@/components/UpdatePersonForm";
 
 const UpdateUserPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const userId = parseInt(id, 10);
-  const result = await getUserById(userId);
+  const result = await getPersonById(userId);
 
   if (!result || result.error || !result.data) {
     return <div>User not found</div>;

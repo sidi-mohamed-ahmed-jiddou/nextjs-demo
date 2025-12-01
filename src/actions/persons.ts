@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { checkPermission } from "@/lib/rbac";
 
-export async function addUser(data: { name: string; email: string; role?: string }) {
+export async function addPerson(data: { name: string; email: string; role?: string }) {
   const permission = await checkPermission("create:person");
   if (!permission.success) {
     return { error: permission.error };
@@ -35,12 +35,12 @@ export async function addUser(data: { name: string; email: string; role?: string
 
     return { success: true };
   } catch (error) {
-    return { error: "Failed to add user" };
+    return { error: "Failed to add person" };
   }
 }
 
 
-export async function getUsers() {
+export async function getPersons() {
   const permission = await checkPermission("read:person");
   if (!permission.success) {
     return { error: permission.error };
@@ -52,13 +52,16 @@ export async function getUsers() {
       .from(persons)
       .orderBy(persons.id);
 
-    return { success: true, data: result };
+    return { success: true, data: result, message: "Persons fetched successfully" };
   } catch (error) {
-    return { error: "Failed to fetch users" };
+    return {
+      success: false,
+      error: "Failed to fetch persons",
+    }
   }
 }
 
-export async function getUserById(id: number) {
+export async function getPersonById(id: number) {
   const permission = await checkPermission("read:person");
   if (!permission.success) {
     return { error: permission.error };
@@ -73,12 +76,12 @@ export async function getUserById(id: number) {
 
     return { success: true, data: result[0] ?? null };
   } catch (error) {
-    return { error: "Failed to fetch user by ID" };
+    return { error: "Failed to fetch person by ID" };
   }
 }
 
 
-export async function updateUser(
+export async function updatePerson(
   id: number,
   data: { name: string; email: string; role?: string }
 ) {
@@ -103,11 +106,11 @@ export async function updateUser(
 
     return { success: true };
   } catch (error) {
-    return { error: "Failed to update user" };
+    return { error: "Failed to update person" };
   }
 }
 
-export async function deleteUser(id: number) {
+export async function deletePerson(id: number) {
   const permission = await checkPermission("delete:person");
   if (!permission.success) {
     return { error: permission.error };
@@ -122,6 +125,6 @@ export async function deleteUser(id: number) {
 
     return { success: true };
   } catch (error) {
-    return { error: "Failed to delete user" };
+    return { error: "Failed to delete person" };
   }
 }

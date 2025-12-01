@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { addUser } from "@/actions/persons";
+import { addPerson } from "@/actions/persons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,7 +15,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema, UserSchema } from "@/app/(dashboard)/persons/schemas/user.schema";
+import { personSchema, PersonSchema } from "@/app/(dashboard)/persons/schemas/person.schema";
 
 interface AddUserFormProps {
   onSuccess?: () => void;
@@ -23,8 +23,8 @@ interface AddUserFormProps {
 
 const AddUserForm = ({ onSuccess }: AddUserFormProps) => {
   const router = useRouter();
-  const form = useForm<UserSchema>({
-    resolver: zodResolver(userSchema) as any,
+  const form = useForm<PersonSchema>({
+    resolver: zodResolver(personSchema) as any,
     defaultValues: {
       name: "",
       email: "",
@@ -32,9 +32,9 @@ const AddUserForm = ({ onSuccess }: AddUserFormProps) => {
     },
   });
 
-  const onSubmit: SubmitHandler<UserSchema> = async (values) => {
+  const onSubmit: SubmitHandler<PersonSchema> = async (values) => {
     try {
-      const result = await addUser(values);
+      const result = await addPerson(values);
 
       if (result?.error) {
         toast.error(result.error);
@@ -42,11 +42,11 @@ const AddUserForm = ({ onSuccess }: AddUserFormProps) => {
       }
 
       onSuccess?.();
-      toast.success("User added successfully!");
+      toast.success("Person added successfully!");
       router.push("/persons");
       router.refresh();
     } catch (error) {
-      toast.error("Failed to add user");
+      toast.error("Failed to add person");
     }
   };
 

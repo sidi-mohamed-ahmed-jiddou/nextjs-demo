@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userSchema = z.object({
+export const personSchema = z.object({
   name: z
     .string()
     .min(2, "Le nom doit contenir au moins 2 caractères")
@@ -14,4 +14,4 @@ export const userSchema = z.object({
     .string().default("user").optional(),
 });
 
-export type UserSchema = z.infer<typeof userSchema>;
+export type PersonSchema = z.infer<typeof personSchema>;

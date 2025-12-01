@@ -15,6 +15,13 @@
       "when": 1764585793896,
       "tag": "0001_numerous_micromacro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764597391616,
+      "tag": "0002_strange_apocalypse",
+      "breakpoints": true
     }
   ]
 }

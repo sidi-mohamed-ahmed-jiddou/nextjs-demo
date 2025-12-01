@@ -1,4 +1,4 @@
-import { getUserById } from "@/actions/persons";
+import { getPersonById } from "@/actions/persons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
@@ -6,7 +6,7 @@ import Link from "next/link";
 const UserDetailsPage = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
     const userId = parseInt(id, 10);
-    const result = await getUserById(userId);
+    const result = await getPersonById(userId);
 
     if (!result || result.error || !result.data) {
         return (

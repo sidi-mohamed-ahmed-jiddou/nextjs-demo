@@ -1,6 +1,6 @@
 "use client";
 
-import { updateUser } from "@/actions/persons";
+import { updatePerson } from "@/actions/persons";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { userSchema, UserSchema } from "@/app/(dashboard)/persons/schemas/user.schema";
+import { personSchema, PersonSchema } from "@/app/(dashboard)/persons/schemas/person.schema";
 
 const userRoles = ["admin", "user"];
 
@@ -26,8 +26,8 @@ export default function UpdateUserForm({
 }) {
   const router = useRouter();
 
-  const form = useForm<UserSchema>({
-    resolver: zodResolver(userSchema),
+  const form = useForm<PersonSchema>({
+    resolver: zodResolver(personSchema),
     defaultValues: {
       name: user.name,
       email: user.email,
@@ -35,14 +35,14 @@ export default function UpdateUserForm({
     },
   });
 
-  const onSubmit = async (data: UserSchema) => {
+  const onSubmit = async (data: PersonSchema) => {
     try {
-      const result = await updateUser(user.id, data);
+      const result = await updatePerson(user.id, data);
       if (result?.error) {
         toast.error(result.error);
         return;
       }
-      toast.success("User updated successfully!");
+      toast.success("Person updated successfully!");
       router.push("/persons");
       router.refresh();
     } catch (error) {
@@ -122,7 +122,7 @@ export default function UpdateUserForm({
             disabled={form.formState.isSubmitting}
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            {form.formState.isSubmitting ? "Updating..." : "Update User"}
+            {form.formState.isSubmitting ? "Updating..." : "Update Person"}
           </button>
 
           <button

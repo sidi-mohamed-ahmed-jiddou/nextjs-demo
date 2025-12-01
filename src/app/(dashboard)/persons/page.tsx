@@ -1,6 +1,6 @@
-import { getUsers } from "@/actions/persons";
+import { getPersons } from "@/actions/persons";
 import Link from "next/link";
-import DeleteUserButton from "@/components/DeleteUserButton";
+import DeleteUserButton from "@/components/DeletePersonButton";
 import {
   Table,
   TableBody,
@@ -13,8 +13,8 @@ import {
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
 
-const UsersPage = async () => {
-  const { data: users, success, message } = await getUsers();
+const PersonsPage = async () => {
+  const { data: persons, success, message } = await getPersons();
 
   if (!success) {
     return (
@@ -58,7 +58,7 @@ const UsersPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users?.map((user) => (
+          {persons?.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
@@ -77,7 +77,7 @@ const UsersPage = async () => {
                 >
                   Detail
                 </Link>
-                <DeleteUserButton userId={user.id} />
+                <DeleteUserButton personId={user.id} />
               </TableCell>
             </TableRow>
           ))}
@@ -88,4 +88,4 @@ const UsersPage = async () => {
   );
 };
 
-export default UsersPage;
+export default PersonsPage;
