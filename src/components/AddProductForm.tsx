@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProductSchema, productSchema } from "@/app/(dashboard)/products/schemas/product.schema";
+import { Button } from "./ui/button";
 
 const AddProductForm = () => {
   const queryClient = useQueryClient();
@@ -31,7 +32,13 @@ const AddProductForm = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: createProduct,
+    mutationFn: async (values: ProductSchema) => {
+      const result = await createProduct(values);
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+      return result;
+    },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -41,7 +48,7 @@ const AddProductForm = () => {
     },
 
     onError: (error: { message: string }) => {
-      toast.error(`Erreur lors de la création : ${error.message}`);
+      toast.error(error.message);
     },
   });
 
@@ -136,14 +143,23 @@ const AddProductForm = () => {
           )}
         />
 
-        <button
+        <div className="flex justify-center space-x-2 mt-4 gap-2">
+          <Button 
           type="submit"
           disabled={mutation.isPending}
           className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition 
                       ${mutation.isPending ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           {mutation.isPending ? "Ajout en cours..." : "Ajouter le produit"}
-        </button>
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.back()}
+        >
+          Annuler
+        </Button>
+        </div>
       </form>
     </Form>
   );

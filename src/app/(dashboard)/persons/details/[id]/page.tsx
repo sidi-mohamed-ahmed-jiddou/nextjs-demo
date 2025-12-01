@@ -6,9 +6,9 @@ import Link from "next/link";
 const UserDetailsPage = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
     const userId = parseInt(id, 10);
-    const user = await getUserById(userId);
+    const result = await getUserById(userId);
 
-    if (!user) {
+    if (!result || result.error || !result.data) {
         return (
             <Card className="w-full max-w-sm mx-auto mt-10">
                 <CardHeader>
@@ -22,6 +22,8 @@ const UserDetailsPage = async ({ params }: { params: { id: string } }) => {
             </Card>
         );
     }
+
+    const user = result.data;
 
     return (
         <Card className="w-full max-w-sm mx-auto mt-16">

@@ -25,9 +25,15 @@ export default function DeleteUserButton({ userId }: { userId: number }) {
   const handleDelete = async () => {
     setIsDeleting(true);
     try {
-      await deleteUser(userId);
-      setOpen(false);
+      const result = await deleteUser(userId);
 
+      if (result?.error) {
+        toast.error(result.error);
+        setIsDeleting(false);
+        return;
+      }
+
+      setOpen(false);
       toast.success("User deleted successfully");
       router.refresh();
     } catch (error) {

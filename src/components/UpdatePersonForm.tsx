@@ -37,7 +37,11 @@ export default function UpdateUserForm({
 
   const onSubmit = async (data: UserSchema) => {
     try {
-      await updateUser(user.id, data);
+      const result = await updateUser(user.id, data);
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
       toast.success("User updated successfully!");
       router.push("/persons");
       router.refresh();

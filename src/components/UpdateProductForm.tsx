@@ -44,7 +44,11 @@ export default function UpdateProductForm({
 
   const mutation = useMutation({
     mutationFn: async (data: ProductSchema) => {
-      return updateProduct(product.id, data);
+      const result = await updateProduct(product.id, data);
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+      return result;
     },
 
     onSuccess: () => {
@@ -53,8 +57,8 @@ export default function UpdateProductForm({
       router.push("/products");
     },
 
-    onError: () => {
-      toast.error("Failed to update product.");
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 

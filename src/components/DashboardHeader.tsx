@@ -5,14 +5,20 @@ import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { LogOut } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 export default function DashboardHeader() {
     const router = useRouter();
 
-    const handleLogout = () => {
-        // In a real app, you'd call a server action or API to logout
-        toast.success("Logged out successfully");
-        router.push("/login");
+    const handleLogout = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success("Logged out successfully");
+                    router.push("/login");
+                },
+            },
+        });
     };
 
     return (
@@ -22,7 +28,7 @@ export default function DashboardHeader() {
                 <ul className="flex gap-6 items-center">
                     <li>
                         <Link href="/persons" className="px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-600 transition duration-300 font-medium">
-                            Person
+                            Persons
                         </Link>
                     </li>
                     <li>

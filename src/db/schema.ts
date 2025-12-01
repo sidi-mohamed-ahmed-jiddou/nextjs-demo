@@ -31,8 +31,8 @@ export const posts = pgTable("posts", {
   content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updateAt: timestamp("updated_at").defaultNow().$onUpdateFn(() => new Date()),
-});
 
+});
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -40,6 +40,7 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  role: text("role").notNull().default("user"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

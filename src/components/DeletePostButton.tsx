@@ -23,12 +23,19 @@ export default function DeletePostButton({ postId }: { postId: number }) {
 
     const mutation = useMutation({
         mutationFn: async () => {
-            await deletePost(Number(postId));
+            const result = await deletePost(Number(postId));
+            if (result?.error) {
+                toast.error(result.error);
+            }
+            return result;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["posts"] });
             setOpen(false);
             toast.success("Post deleted successfully.");
+        },
+        onError: (error) => {
+            toast.error(error.message);
         },
     });
 

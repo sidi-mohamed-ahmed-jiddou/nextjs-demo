@@ -36,7 +36,7 @@ const AddUserForm = ({ onSuccess }: AddUserFormProps) => {
     try {
       const result = await addUser(values);
 
-      if (result.error) {
+      if (result?.error) {
         toast.error(result.error);
         return;
       }

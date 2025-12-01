@@ -29,10 +29,9 @@ export function AddPostForm() {
   const onSubmit = async (values: { title: string; content: string }) => {
     try {
       await mutateAsync(values);
-      toast.success("Post created successfully!");
       form.reset();
     } catch (err) {
-      toast.error("Failed to create post");
+      // Error is already handled by useCreatePost's onError callback
     }
   };
 
@@ -63,10 +62,10 @@ export function AddPostForm() {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <textarea 
-                className="w-full border px-3 py-2 rounded"
-                placeholder="Enter content"
-                {...field} />
+                <textarea
+                  className="w-full border px-3 py-2 rounded"
+                  placeholder="Enter content"
+                  {...field} />
               </FormControl>
               <FormMessage className="text-red-600" />
             </FormItem>

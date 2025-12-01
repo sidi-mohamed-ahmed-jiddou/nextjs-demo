@@ -41,22 +41,28 @@ The application is structured to demonstrate three distinct approaches to data f
 *   **Implementation:** The project implements form validation using two popular libraries to demonstrate and compare their usage patterns.
 *   **Why:** To evaluate the differences in developer experience, bundle size, and ease of use between Zod (TypeScript-first schema declaration) and Yup (builder pattern).
 
-## Getting Started
+### 5. Role-Based Access Control (RBAC)
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+This application implements a comprehensive RBAC system to manage user permissions across different resources.
 
-2.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+# a. Permission Model
 
-3.  **Open the application:**
-    Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
+The system uses granular permissions for three main resources:
+- **Posts:** `create:post`, `read:post`, `update:post`, `delete:post`
+- **Products:** `create:product`, `read:product`, `update:product`, `delete:product`
+- **Persons:** `create:person`, `read:person`, `update:person`, `delete:person`
 
-## Tech Stack
+# b. Roles
+
+**Admin Role:**
+- Full access to all resources (create, read, update, delete)
+- Can manage posts, products, and persons
+
+**User Role:**
+- Read-only access to all resources
+- Cannot create, update, or delete any content
+
+### 6. Tech Stack
 
 *   **Framework:** Next.js 16 (App Router)
 *   **Language:** TypeScript
@@ -66,4 +72,5 @@ The application is structured to demonstrate three distinct approaches to data f
 *   **Database:** Supabase (PostgreSQL)
 *   **ORM:** Drizzle ORM
 *   **Authentication:** Better Auth
+*   **Email Service:** Resend
 *   **Validation:** Zod & Yup (used for comparison purposes)

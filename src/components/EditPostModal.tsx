@@ -26,7 +26,11 @@ export default function EditPostModal({ post, open, onOpenChange }: EditPostModa
 
     const mutation = useMutation({
         mutationFn: async () => {
-            await updatePost(post.id, { title, content })
+            const result = await updatePost(post.id, { title, content })
+            if (result?.error) {
+                throw new Error(result.error)
+            }
+            return result
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['posts'] })

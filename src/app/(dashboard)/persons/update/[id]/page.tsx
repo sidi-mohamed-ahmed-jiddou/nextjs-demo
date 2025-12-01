@@ -4,11 +4,13 @@ import UpdateUserForm from "@/components/UpdatePersonForm";
 const UpdateUserPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const userId = parseInt(id, 10);
-  const user = await getUserById(userId);
+  const result = await getUserById(userId);
 
-  if (!user) {
+  if (!result || result.error || !result.data) {
     return <div>User not found</div>;
   }
+
+  const user = result.data;
 
   return (
     <div className="max-w-md mx-auto mt-8">

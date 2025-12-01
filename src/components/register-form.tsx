@@ -74,8 +74,8 @@ export function RegisterForm({
         try {
             const res = await signUp(values.name, values.email, values.password);
             if (res.success) {
-                toast.success("Registration successful");
-                router.push("/dashboard");
+                toast.success("Registration successful, check your email for verification");
+                router.push("/login");
             } else {
                 toast.error(res.message);
             }

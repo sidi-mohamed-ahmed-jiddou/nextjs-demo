@@ -23,12 +23,19 @@ export default function DeleteProductButton({ id }: { id: string | number }) {
 
     const mutation = useMutation({
         mutationFn: async () => {
-            await deleteProduct(Number(id));
+            const result = await deleteProduct(Number(id));
+            if (result?.error) {
+                throw new Error(result.error);
+            }
+            return result;
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
             setOpen(false);
             toast.success("Product deleted successfully.");
+        },
+        onError: (error) => {
+            toast.error(error.message);
         },
     });
 

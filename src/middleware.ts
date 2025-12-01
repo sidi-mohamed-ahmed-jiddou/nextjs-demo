@@ -2,22 +2,34 @@ import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 
+const publicRoutes = [
+    "/",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+];
+
 export async function middleware(request: NextRequest) {
+    const { pathname } = request.nextUrl;
+
+    // Allow access to public routes and auth API
+    if (publicRoutes.includes(pathname) || pathname.startsWith("/api/auth")) {
+        return NextResponse.next();
+    }
+
     const session = await auth.api.getSession({
         headers: await headers()
-    })
+    });
 
-    // THIS IS NOT SECURE!
-    // This is the recommended approach to optimistically redirect users
-    // We recommend handling auth checks in each page/route
     if (!session) {
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/login", request.url));
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    runtime: "nodejs", // Required for auth.api calls
-    matcher: ["/dashboard"], // Specify the routes the middleware applies to
+    matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+    runtime: "nodejs",
 };
