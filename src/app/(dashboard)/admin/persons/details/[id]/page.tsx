@@ -43,7 +43,7 @@ const UserDetailsPage = async ({ params }: { params: { id: string } }) => {
 
             <CardFooter className="flex justify-center">
                 <Button asChild variant="secondary">
-                    <Link href="/persons">Back to List of users</Link>
+                    <Link href="/admin/persons">Back to List of users</Link>
                 </Button>
             </CardFooter>
         </Card>

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { productSchema, ProductSchema } from "@/app/(dashboard)/products/schemas/product.schema";
+import { productSchema, ProductSchema } from "@/app/(dashboard)/admin/products/schemas/product.schema";
 
 import {
   Form,

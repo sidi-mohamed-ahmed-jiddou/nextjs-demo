@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useCreatePost } from "@/app/(dashboard)/posts/hooks/useCreatePost";
+import { useCreatePost } from "@/app/(dashboard)/admin/posts/hooks/useCreatePost";
 
 export function AddPostForm() {
   const router = useRouter();

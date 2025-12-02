@@ -1,56 +1,43 @@
 'use client'
 
 import { getPosts } from '@/actions/posts'
-import DeletePostButton from '@/components/DeletePostButton'
-import EditPostModal from '@/components/EditPostModal'
-import { Button } from '@/components/ui/button'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 
-export default function Posts() {
-  const { data } = useQuery({
-    queryKey: ['posts'],
-    queryFn: getPosts,
-  })
+export default function PostList() {
+    const { data } = useQuery({
+        queryKey: ['posts'],
+        queryFn: getPosts,
+    })
 
-  const [editingPost, setEditingPost] = useState<{ id: number; title: string; content: string } | null>(null)
-
-  return (
-    <div className="p-6 space-y-4">
-      {/* <h1 className="text-2xl font-bold mb-4"> Posts</h1> */}
-
-      <ul className="space-y-4">
-        {data?.map((post: { id: number; title: string; content: string }) => (
-          <li
-            key={post.id}
-            className="p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition"
-          >
-            <h3 className="text-lg font-semibold text-blue-600">
-              {post.title}
-            </h3>
-            <p className="text-gray-700 mt-1">{post.content}</p>
-
-            <div className="mt-4 flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setEditingPost(post)}
-              >
-                Edit
-              </Button>
-              <DeletePostButton postId={post.id} />
+    return (
+        <div className="p-8 space-y-6 max-w-7xl mx-auto mt-0">
+            <div className="flex flex-col space-y-2 mb-8">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">Latest Posts</h1>
+                <p className="text-gray-500">Read the latest updates and articles.</p>
             </div>
-          </li>
-        ))}
-      </ul>
 
-      {editingPost && (
-        <EditPostModal
-          post={editingPost}
-          open={!!editingPost}
-          onOpenChange={(open) => !open && setEditingPost(null)}
-        />
-      )}
-    </div>
-  )
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.isArray(data) ? data.map((post: { id: number; title: string; content: string }) => (
+                    <div
+                        key={post.id}
+                        className="group flex flex-col p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:border-blue-100"
+                    >
+                        <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2 line-clamp-2">
+                            {post.title}
+                        </h3>
+                        <p className="text-gray-600 line-clamp-3 mb-4 flex-grow">
+                            {post.content}
+                        </p>
+                        <div className="pt-4 mt-auto border-t border-gray-100 flex items-center justify-between text-sm text-gray-500">
+                            <span>Read more &rarr;</span>
+                        </div>
+                    </div>
+                )) : (
+                    <div className="col-span-full text-center py-12 text-gray-500">
+                        No posts found.
+                    </div>
+                )}
+            </div>
+        </div>
+    )
 }

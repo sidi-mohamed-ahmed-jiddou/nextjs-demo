@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ProductSchema, productSchema } from "@/app/(dashboard)/products/schemas/product.schema";
+import { ProductSchema, productSchema } from "@/app/(dashboard)/admin/products/schemas/product.schema";
 import { Button } from "./ui/button";
 
 const AddProductForm = () => {

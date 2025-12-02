@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { personSchema, PersonSchema } from "@/app/(dashboard)/persons/schemas/person.schema";
+import { personSchema, PersonSchema } from "@/app/(dashboard)/admin/persons/schemas/person.schema";
 
 const userRoles = ["admin", "user"];
 

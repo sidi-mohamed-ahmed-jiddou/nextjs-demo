@@ -15,7 +15,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { personSchema, PersonSchema } from "@/app/(dashboard)/persons/schemas/person.schema";
+import { personSchema, PersonSchema } from "@/app/(dashboard)/admin/persons/schemas/person.schema";
 
 interface AddUserFormProps {
   onSuccess?: () => void;
